@@ -1,0 +1,7 @@
+127.0.0.1:8000/firstapp/update_data  		用這個網址觸發爬蟲
+127.0.0.1:8000/firstapp/group 			資料呈現在這個網址
+127.0.0.1:8000/admin 後臺網址
+https://github.com/stufinite/teaching           LAB教程
+
+python manage.py makemigrations			資料庫更新會用到的指令
+python manage.py migrate

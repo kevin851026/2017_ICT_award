@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>情緒地圖</title>
+  <link rel="icon" href="static/entry/nchu_sg.jpg" type="image/ico" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- navbar的特效以及css-->
+  <link rel="stylesheet" type="text/css" href="static/entry/css/sidebar.css">
+  <link rel="stylesheet" type="text/css" href="static/entry/css/entry.css">
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.6/semantic.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+  <link rel="stylesheet" href="static/SentiMap/css/map.css" />
+  
+  <link href="static/SentiMap/toastr/toastr.css" rel="stylesheet"/><!--這是toast message的css-->
+  <link rel="stylesheet" href="static/SentiMap/timeline/reset.css"> <!-- CSS reset -->
+  <link rel="stylesheet" href="static/SentiMap/timeline/style.css"> <!-- Resource style -->
+  <style type="text/css">
+    #map1 {    
+        height: 500px; width: 100%; 
+        margin-left: auto; margin-right: auto;
+        position: relative;
+        display: inline-block;
+    }
+    #wrapper {
+        width: 75%;
+        margin: 0 auto;
+    }
+    #change_timeline{
+        margin-top: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="pusher">
+    <div class="ui inverted  aligned segment">
+    </div>
+
+    <center>
+        <div class="ui big label">
+            添加議題:
+            <div class="ui icon input">
+              <input id="issue1" type="text" name="issue" placeholder="Search...">
+              <i id="submit_form" class="inverted circular search link icon"></i>
+            </div>
+          </div>
+    </center> 
+    <center>
+      <div id="change_timeline" class="ui buttons">
+        <button id="change_yearTimeline" class="ui button">年</button>
+        <div class="or"></div>
+        <button id="change_monthTimeline" class="ui positive button">月</button>
+      </div>
+    </center>
+    <!-- year timeline -->
+    <section id="year_timeline" class="cd-horizontal-timeline">
+      <div class="timeline">
+        <div class="events-wrapper">
+          <div class="events">
+            <ol>
+              <li><a href="#0" data-date="00/00/1996">1996</a></li>
+              <li><a href="#0" data-date="00/00/1997">1997</a></li>
+              <li><a href="#0" data-date="00/00/1998">1998</a></li>
+              <li><a href="#0" data-date="00/00/1999">1999</a></li>
+              <li><a href="#0" data-date="00/00/2000">2000</a></li>
+              <li><a href="#0" data-date="00/00/2001">2001</a></li>
+              <li><a href="#0" data-date="00/00/2002">2002</a></li>
+              <li><a href="#0" data-date="00/00/2003">2003</a></li>
+              <li><a href="#0" data-date="00/00/2004">2004</a></li>
+              <li><a href="#0" data-date="00/00/2005">2005</a></li>
+              <li><a href="#0" data-date="00/00/2006">2006</a></li>
+              <li><a href="#0" data-date="00/00/2007">2007</a></li>
+              <li><a href="#0" data-date="00/00/2008">2008</a></li>
+              <li><a href="#0" data-date="00/00/2009">2009</a></li>
+              <li><a href="#0" data-date="00/00/2010">2010</a></li>
+              <li><a href="#0" data-date="00/00/2011">2011</a></li>
+              <li><a href="#0" data-date="00/00/2012">2012</a></li>
+              <li><a href="#0" data-date="00/00/2013">2013</a></li>
+              <li><a href="#0" data-date="00/00/2014">2014</a></li>
+              <li><a href="#0" data-date="00/00/2015">2015</a></li>
+              <li><a href="#0" data-date="00/00/2016">2016</a></li>
+              <li><a href="#0" data-date="00/00/2017" class="selected">2017</a></li>
+            </ol>
+            <span class="filling-line" aria-hidden="true"></span>
+          </div> 
+        </div> 
+          
+        <ul class="cd-timeline-navigation">
+          <li><a href="#0" class="prev inactive">Prev</a></li>
+          <li><a href="#0" class="next">Next</a></li>
+        </ul>
+      </div> 
+      <!-- 時間軸對應的內容 -->
+      <!-- 因為親民上河圖使用時間軸是地圖有變化,因此並沒有使用到 -->
+      <!-- 但如果沒有跟events-wrapper成對,時間軸就無法正常運作 -->
+      <div class="events-content">
+        <ol>
+          <li data-date="00/00/1996"></li>
+          <li data-date="00/00/1997"></li>
+          <li data-date="00/00/1998"></li>
+          <li data-date="00/00/1999"></li>
+          <li data-date="00/00/2000"></li>
+          <li data-date="00/00/2001"></li>
+          <li data-date="00/00/2002"></li>
+          <li data-date="00/00/2003"></li>
+          <li data-date="00/00/2004"></li>
+          <li data-date="00/00/2005"></li>
+          <li data-date="00/00/2006"></li>
+          <li data-date="00/00/2007"></li>
+          <li data-date="00/00/2008"></li>
+          <li data-date="00/00/2009"></li>
+          <li data-date="00/00/2010"></li>
+          <li data-date="00/00/2011"></li>
+          <li data-date="00/00/2012"></li>
+          <li data-date="00/00/2013"></li>
+          <li data-date="00/00/2014"></li>
+          <li data-date="00/00/2015"></li>
+          <li data-date="00/00/2016"></li>
+          <li data-date="00/00/2017" class="selected"></li>
+        </ol>
+      </div>
+    </section>
+    
+    <!-- month timeline -->
+    <section id="month_timeline" class="cd-horizontal-timeline">
+      <div class="timeline">
+        <div class="events-wrapper">
+          <div class="events">
+            <ol>
+              <li><a href="#0" data-date="00/00/0000" class="all_time selected">All time</a></li>
+              <li><a href="#0" data-date="00/01/0000">Jan</a></li>
+              <li><a href="#0" data-date="00/02/0000">Feb</a></li>
+              <li><a href="#0" data-date="00/03/0000">Mar</a></li>
+              <li><a href="#0" data-date="00/04/0000">Apr</a></li>
+              <li><a href="#0" data-date="00/05/0000">May</a></li>
+              <li><a href="#0" data-date="00/06/0000">Jun</a></li>
+              <li><a href="#0" data-date="00/07/0000">Jul</a></li>
+              <li><a href="#0" data-date="00/08/0000">Aug</a></li>
+              <li><a href="#0" data-date="00/09/0000">Sep</a></li>
+              <li><a href="#0" data-date="00/10/0000">Oct</a></li>
+              <li><a href="#0" data-date="00/11/0000">Nov</a></li>
+              <li><a href="#0" data-date="00/12/0000">Dec</a></li>
+            </ol>
+
+            <span class="filling-line" aria-hidden="true"></span>
+          </div> 
+        </div> 
+          
+        <ul class="cd-timeline-navigation">
+          <li><a href="#0" class="prev inactive">Prev</a></li>
+          <li><a href="#0" class="next">Next</a></li>
+        </ul>
+      </div> 
+
+      <div class="events-content">
+        <ol>
+          <li data-date="00/00/0000" class="all_time selected"></li>
+          <li data-date="00/01/0000"></li>
+          <li data-date="00/02/0000"></li>
+          <li data-date="00/03/0000"></li>
+          <li data-date="00/04/0000"></li>
+          <li data-date="00/05/0000"></li>
+          <li data-date="00/06/0000"></li>
+          <li data-date="00/07/0000"></li>
+          <li data-date="00/08/0000"></li>
+          <li data-date="00/09/0000"></li>
+          <li data-date="00/10/0000"></li>
+          <li data-date="00/11/0000"></li>
+          <li data-date="00/12/0000"></li>
+        </ol>
+      </div>
+    </section>
+    <div id="wrapper">
+      <div id="map1"></div>
+    </div>
+
+    <!-- 文字雲 -->
+    <!-- <center>
+      <canvas id="my_canvas" width="500" height="500"></canvas>
+    </center> -->
+  </div>
+</body>
+
+<script src="static/SentiMap/timeline/modernizr.js"></script> <!-- Modernizr -->
+<!-- 引入Ｊs TAG -->
+<!-- 引入Ｊquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<!-- 引入Ｊs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.6/semantic.min.js"></script>
+<script src="static/entry/js/pusher.js"></script>
+<script src="static/entry/js/visibility.js"></script>
+<script src="static/entry/js/sidebar.js"></script>
+<script src="static/entry/js/transition.js"></script>
+<!-- 引入Ｊs TAG -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.5/leaflet.js"></script>
+<!--MapName是從view傳過來的地圖名稱變數 with可以讓我們在template做變數的儲存 add可以串接字串-->
+<script src="static/SentiMap/js/taiwan.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.6/semantic.min.js"></script>
+<script src="static/SentiMap/timeline/jquery.mobile.custom.min.js"></script>
+<script src="static/SentiMap/timeline/main.js"></script> <!-- Resource jQuery -->
+<script src="static/SentiMap/js/wordcloud2.js"></script> <!-- 文字雲 -->
+<script src="static/SentiMap/toastr/toastr.js"></script>
+
+
+<script type="text/javascript">
+  // 年,月時間軸只顯示一個
+  $('#change_yearTimeline').click(function(){
+      $("#year_timeline").removeAttr("hidden");
+      $("#month_timeline").attr("hidden","");
+      $("#change_monthTimeline").removeClass("positive");
+      $(this).addClass("positive");
+  });
+  $('#change_monthTimeline').click(function(){
+      $("#month_timeline").removeAttr("hidden");
+      $("#year_timeline").attr("hidden","");
+      $("#change_yearTimeline").removeClass("positive");
+      $(this).addClass("positive");
+  });
+
+  $('#issue1').keypress(function (e) {
+    code = (e.keyCode ? e.keyCode : e.which);
+    if (code == 13)
+    {
+        submit_form();
+    }
+  });
+  $( "#submit_form" ).click(function() {
+      submit_form();
+  });
+</script>
+<script>
+      // 需先等年的時間軸隱藏完成,否則在選擇年的時間軸時,一開始顯示會不正常
+      $(window).bind("load", function() {
+         $("#year_timeline").attr("hidden","");
+      });
+      toastr.options = {
+        "timeOut": "3000",
+      }
+      var target=[];
+      target[0]={}
+      var sort_key=[];
+      var sort_val=[];
+      var cnt=0;
+      var translation={
+          "New Taipei" : "新北市",
+          "Taipei" : "新北市", //反查結果:台北市和新北市不太能分辨
+          "Taoyuan" : "桃園縣",
+          "Hsinchu" : "新竹縣",
+          "Miaoli" : "苗栗縣",
+          "Nantou" : "南投縣",
+          "Taichung" : "台中市",
+          "Changhua" : "彰化縣",
+          "Yünlin" : "雲林縣",
+          "Yunlin" : "雲林縣",
+          "Chiayi" : "嘉義縣",
+          "Tainan" : "台南市",
+          "Kaohsiung" : "高雄市",
+          "Pingtung" : "屏東縣",
+          "Keelung" : "基隆市",
+          "Yilan" : "宜蘭縣",
+          "Hualien" : "花蓮縣",
+          "Taitung" : "台東縣",
+          "Penghu" : "澎湖縣",
+          "Kinmen" : "金門縣",
+          // 沒有馬祖...
+      }
+
+      // 地圖初始的中心位置和放大大小
+      var map = L.map('map1', {
+          center: [24.06, 121.00],
+          zoom: 8,
+        });
+      // 地圖的圖層設定
+      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+          attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+          maxZoom: 20,
+          id: 'mapbox.light',
+          accessToken: 'pk.eyJ1Ijoiajk5NjMyMzJxIiwiYSI6ImNpdHBzb2RhYTAyZzYydG1vM3V3b29jMnIifQ.CnfYcW_5DxbTniLIfQ00PA'
+      }).addTo(map);
+
+      // 有兩種情形會使用:
+      // 1.d=縣市名稱, 需找出縣市的排名並回傳對應的顏色
+      // 2.d=排名數字, 此用於地圖右下角顏色和排名的對應表,回傳排名對應的顏色
+      function getColor(d) {
+        var senti_number = null
+        if(!$.isNumeric(d))
+        {
+          for(i=0;i<sort_key.length;i++)
+          {
+            if(sort_key[i]==d)
+            {
+              senti_number=i+1
+              break;
+            }
+          }
+        }
+        else
+        {
+          senti_number=d
+        }
+
+        return senti_number == 1 ? '#FF0000' :
+         senti_number == 2  ? '#FF4000' :
+         senti_number == 3  ? '#FFBF00' :
+         senti_number == 4  ? '#FFFF00' :
+         senti_number == 5  ? '#F3F781' :
+         senti_number == 6   ? '#58FAF4' :
+         senti_number == 7   ? '#00BFFF' :
+         senti_number == 8  ? '#0174DF' :
+         senti_number == 9   ? '#0431B4' :
+         senti_number == null  ? '#A4A4A4' :
+                    '#0000FF';
+      }
+      function style(feature) {
+          return {
+              fillColor: getColor(feature.properties.name),
+              weight: 2,
+              opacity: 0.4,
+              color: 'white',
+              dashArray: '3',
+              fillOpacity: 0.9
+          };
+      }
+      // 當滑鼠click,mouseout,mouseover時呈現的效果
+      function onEachFeature(feature, layer) {
+          layer.on({
+              mouseover: highlightFeature,
+              mouseout: resetHighlight,
+              click: zoomToFeature
+          });
+      }
+      function highlightFeature(e) {
+          var layer = e.target;
+
+          layer.setStyle({
+              weight: 5,
+              opacity: 1,
+              color: '#FA5858',
+              dashArray: '',
+              fillOpacity: 0.9
+          });
+
+          if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+              layer.bringToFront();
+          }
+          info.update(layer.feature.properties);
+      }
+      function resetHighlight(e) {
+          geojson.resetStyle(e.target);
+          info.update();
+      }
+      function zoomToFeature(e) {
+          map.fitBounds(e.target.getBounds());
+      }
+
+      // 地圖右上角的詳細資訊
+      var info = L.control();
+      info.onAdd = function (map) {
+          this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+          this.update();
+          return this._div;
+      };
+      // method that we will use to update the control based on feature properties passed
+      info.update = function (props) {
+          
+          this._div.innerHTML = '<h4>台灣地區 正面評價</h4>' +  (props ?
+              '<b>' + props.name + '</b><br />' + (get_sentiNumber(props.name)) + '</sup>'
+              : 'Hover over a state');
+      };
+
+      // 地圖右下角的顏色與排名的對應表
+      var legend = L.control({position: 'bottomright'});
+      legend.onAdd = function (map) {
+
+          var div = L.DomUtil.create('div', 'info legend'),
+              grades = [1,2,3,4,5,6,7,8,9],
+              labels = [];
+
+          // loop through our density intervals and generate a label with a colored square for each interval
+          for (var i = 0; i < grades.length; i++) {
+              div.innerHTML +=
+                  '<i style="background:' + getColor(grades[i]) + '"></i> ' +grades[i]  ;
+              if(i!=9)
+              {
+                div.innerHTML+= '<br>';
+              }
+          }
+
+          return div;
+      };
+
+      geojson = L.geoJson(statesData, {
+          style: style,
+          onEachFeature: onEachFeature
+      }).addTo(map);
+      info.addTo(map);
+      legend.addTo(map);
+
+      // 計算各縣市的分數
+      function get_sentiNumber(area_name){
+        try
+        {
+          var senti_number = 0;
+          var attendee=0;
+          var get_data=0;
+          $.each(target[0].map.Taiwan,function(uk,uv){
+            if(uk==area_name)
+            {
+              senti_number += uv.positive;
+              attendee += uv.attendee;
+              get_data=1;
+            }
+          });
+          if(get_data==1)
+          {
+            senti_number/=attendee;
+            return senti_number;
+          }
+          else
+          {
+            return null;
+          }
+        }
+        catch(e)
+        {
+          //沒有issue...
+        }
+        
+      }
+      // 將各縣市的分數排序
+      function sortValue(){
+        var k;
+        for(i=0;i<sort_val.length;i++)
+        {
+          for(j=i;j<sort_val.length;j++)
+          {
+            if(sort_val[i]<sort_val[j])
+            {
+              k=sort_val[i]
+              sort_val[i]=sort_val[j]
+              sort_val[j]=k
+              k=sort_key[i]
+              sort_key[i]=sort_key[j]
+              sort_key[j]=k
+            }
+          }
+        }
+      }
+      // 英文轉換成中文
+      function translate(k){
+        var rtn_val=k;
+        $.each(translation,function(uk,uv){
+
+          if(uk==k)
+          {
+            rtn_val=uv
+            return false;
+          }
+        });
+        return rtn_val;
+      }
+      function submit_form(){
+        if($.trim( $('#issue1').val() ) != '')
+          {
+              var issue = $('#issue1').val();
+              $.getJSON( "http://140.120.13.243:10003/PTT_KCM_API/api/locations/?issue="+issue, function(data){
+                  if(Object.keys(data.map).length === 0)
+                  {
+                    toastr.error('找不到此議題!');
+                    return false
+                  }
+
+                  // 英文縣市名稱轉成中文縣市名稱
+                  // 因為地圖的geojson縣市名稱是使用中文
+                  $.each(data.map.Taiwan,function(uk,uv){
+                      var CHkey = translate(uk);
+                      if(CHkey!=uk)
+                      {
+                        if("CHkey" in data.map.Taiwan)
+                        {
+                          data.map.Taiwan[CHkey] += uv;
+                        }
+                        else
+                        {
+                          data.map.Taiwan[CHkey] = uv;
+                        }
+                        
+                        delete data.map.Taiwan[uk];
+                      }
+                  });
+                  console.log(data)
+                  target[0]=data;
+
+                  //redraw geojson
+                  cnt=0
+                  geojson.eachLayer(function (layer) {
+                      var area = layer.feature.properties.name;
+                      var sumOfScore_p = get_sentiNumber(area)
+                      if(sumOfScore_p!=null)
+                      {
+                        sort_key[cnt]=area;
+                        sort_val[cnt]=sumOfScore_p;
+                        cnt++
+                      }
+                  });
+                  sortValue();
+                  // 將縣市填入對應的顏色
+                  geojson.eachLayer(function (layer) {     
+                      layer.setStyle({fillColor :getColor(layer.feature.properties.name)}) 
+                  });
+              });
+          }
+      }
+
+</script>
+<!-- <script src="/static/Sentimap/js/boot.js"></script> -->
+</html>
